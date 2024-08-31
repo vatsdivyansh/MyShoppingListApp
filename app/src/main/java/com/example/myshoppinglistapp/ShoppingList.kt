@@ -74,7 +74,10 @@ fun ShoppingListApp(){
     // show alertDialog
     if(showDialog == true ){
        AlertDialog(onDismissRequest = { showDialog = false} ,// i'm just saying that showDialog is set to false whenever the onDismissRequest is called now also set the onClick event of button
-                                      confirmButton = { /*TODO*/ } ,
+                                      confirmButton = {
+
+                                                      
+                                                      } ,
            title = { Text("Add Shopping Item ")},
            text = {
                // we're going to misuse the text here we're not just going to use text here but a lot pf other things (text is a composable )
