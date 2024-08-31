@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +26,8 @@ data class ShoppingItem(val id:Int , var name : String , var quantity : Int , va
 //x = 20 // this will cause an error
 
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingListApp(){
     var sItems by remember{ mutableStateOf(listOf<ShoppingItem>()) }
@@ -32,11 +36,16 @@ fun ShoppingListApp(){
     // remember{ mutableStateOf } --> it is an jetpack compose function that stores the state across recompositions . mutableStateOf creates a mutable state that can be observed by the  UI .When the state changes the UI will automatically updates
     // listOf<ShoppingItem>() --> it initializes the object with the empty list of ShoppingItem
     // in short above line of code defines a mutable list of ShoppingItem that persists across recompositions in a composable function , allowing the UI to actively update when the list updates
+    var showDialog by remember {
+        mutableStateOf(false )
+    } // showDialog variable just going to maintain the information whether we want to show the dialog or not . initially set to false
+        // and after the Column or where the column ends check if showDialog == true then show the AlertDialog
+
     Column(
         modifier = Modifier.fillMaxSize() ,
         verticalArrangement = Arrangement.Center
     ) {
-        Button(onClick = {  } ,
+        Button(onClick = { showDialog = true } ,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text("Add Item ")
@@ -51,6 +60,18 @@ fun ShoppingListApp(){
             items(sItems){
 
             }
+
+        }
+    }
+
+    // show alertDialog
+    if(showDialog == true ){
+        AlertDialog(onDismissRequest = {
+                    showDialog = false // i'm just saying that showDialog is set to false whenever the onDismissRequest is called now also set the onClick event of button
+
+
+        }) {
+            Text("I'M ALRET DIALOG")
 
         }
     }
