@@ -2,6 +2,7 @@ package com.example.myshoppinglistapp
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -75,8 +76,41 @@ fun ShoppingListApp(){
     if(showDialog == true ){
        AlertDialog(onDismissRequest = { showDialog = false} ,// i'm just saying that showDialog is set to false whenever the onDismissRequest is called now also set the onClick event of button
                                       confirmButton = {
+                                                      Row(
+                                                          modifier = Modifier
+                                                              .fillMaxWidth()
+                                                              .padding(16.dp),
+                                                          horizontalArrangement = Arrangement.SpaceBetween
+                                                      ) {
+                                                          Button(onClick = {
+                                                              if(itemName.isNotBlank()){
+                                                                  val newItem = ShoppingItem(
+                                                                      id = sItems.size + 1 ,// initially when we have no element i.e the size is zero then the id will be 1
+                                                                      name = itemName , // whatever we have entered into our outlined text field that I want to store inside name
+                                                                      quantity = itemQuantity.toInt(), // whatever we have entered in the outlined text field  for our quantity that I want to store inside this varialbe but first convert to Int
+                                                                      // we dont need to set the value of isEditing manually here because by default it has been set to false earlier
+                                                                        isEditing = false
+                                                                  )
+                                                                  sItems = sItems + newItem // add newItem added to the old list of items
+                                                                  // and set the showDialog variable to false i.e now after adding the newItem to sItems now I want that alertDialog must disappears
+                                                                  showDialog = false
+                                                                  // and also set itemName to empty setring that now whenever I try to add another item it dont start with previous element filled
+                                                                  itemName = ""
+                                                                  // till now out item is added to the inpersistent list but we're not displaying it anymore
 
-                                                      
+                                                              }
+                                                          }) {
+                                                              Text("Add")
+
+                                                          }
+                                                          Button(onClick = { showDialog = false }) {
+                                                              // onClick of this button -->showDialog = false i.e when we click on this button the showDialog variable is set to false and hence the alertDialog disappears
+                                                              Text("Cancel")
+                                                          }
+
+                                                      }
+
+
                                                       } ,
            title = { Text("Add Shopping Item ")},
            text = {
@@ -85,13 +119,17 @@ fun ShoppingListApp(){
                     OutlinedTextField(value = itemName,
                         onValueChange = {itemName = it } ,// "it" is what onValueChange provides
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth().padding(9.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(9.dp)
 
                         )
                     OutlinedTextField(value = itemQuantity,
                         onValueChange = {itemQuantity = it } ,// "it" is what onValueChange provides
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth().padding(9.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(9.dp)
 
                     )
 
